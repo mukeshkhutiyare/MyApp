@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form #Form="ngForm" (ngSubmit)="submit()">
+    <ion-item>
+      <ion-input label="Product Name" labelPlacement="floating" placeholder="Enter product name" type="text"
+        [(ngModel)]="product.name" name="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Product Price" labelPlacement="floating" placeholder="Enter product price" type="text"
+        [(ngModel)]="product.price" name="price"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Product Type" labelPlacement="floating" placeholder="Enter product type" type="text"
+        [(ngModel)]="product.type" name="type"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Product Description" labelPlacement="floating" placeholder="Enter product description"
+        type="text" [(ngModel)]="product.description" name="description"></ion-input>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-input label="Product Images" labelPlacement="floating" placeholder="Select images" type="files"></ion-input>
+    </ion-item> -->
+
+    <!-- <ion-button (click)="selectImage()">Select Image</ion-button>
+    <ion-img *ngIf="selectedImage" [src]="selectedImage"></ion-img> -->
+
+    <ion-item>
+      <input type="file" (change)="onFileInputChange($event)" multiple accept="image/*">
+    </ion-item>
+
+    <!-- <ion-list>      
+        <img [src]=""/> 
+    </ion-list> -->
+    <ion-item *ngIf="selectedImages.length > 0" >
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let image of selectedImages">
+            <img [src]="image.path" width="100" height="100" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ion-item>
+      <ion-button expanded="full" type="submit">submit</ion-button>
+    </ion-item>
+
+  </form>
+</ion-content>
