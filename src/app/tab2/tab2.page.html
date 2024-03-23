@@ -32,6 +32,7 @@
     (slidechange)="swiperSlideChanged($event)" 
     [loop]="true"
     [pagination]="true" 
+    navigation="true"
     [zoom]="true">
       <swiper-slide *ngFor="let image of images">
         <div class="swiper-zoom-container">
