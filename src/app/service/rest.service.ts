@@ -51,11 +51,20 @@ export class RestService {
     }
   }
 
-  async saveProduct(data: string): Promise<string> {    
-    localStorage.setItem("products", JSON.stringify(data));  
-      console.log('Saved file path:', data);
-      return "save success ful";
-   
+  async saveProduct(data: string): Promise<string> {
+    var prod = localStorage["products"];
+    var new_prod = [];
+    if (prod?.length < 3 || prod === undefined) {
+      localStorage.setItem("products", JSON.stringify(data));
+    } else {
+      new_prod = JSON.parse(prod);
+      new_prod.push(data);
+      localStorage.setItem("products", JSON.stringify(new_prod));
+    }
+    console.log('Saved file path:', data);
+    this.presentToast('save data success fully', 'bottom');
+    return "save success ful";
+
   }
 
   async presentToast(msg: string, position: 'top' | 'middle' | 'bottom') {
@@ -66,6 +75,45 @@ export class RestService {
       cssClass: "custom-toast"
     });
     toast.present();
+  }
+
+  getProducts() {
+    var product = localStorage["products"]
+    if (product) {
+      product = JSON.parse(product);
+    }
+    return product;
+  }
+
+  async getDistanceCalculate() {
+
+    try {
+
+      const distance = this.calculateDistance(40.7128, -74.0060, 34.0522, -118.2437);
+      console.log('Distance:', distance, 'km');
+    } catch (error) {
+      console.error('Error getting current position:', error);
+    }
+  }
+
+  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+    const earthRadiusKm = 6371; // Radius of the earth in kilometers
+    const dLat = this.degreesToRadians(lat2 - lat1);
+    const dLon = this.degreesToRadians(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.degreesToRadians(lat1)) * Math.cos(this.degreesToRadians(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadiusKm * c; // Distance in kilometers
+
+    return distance.toFixed(2)+' km.';
+  }
+
+  degreesToRadians(degrees: any) {
+    return degrees * (Math.PI / 180);
   }
 
 }

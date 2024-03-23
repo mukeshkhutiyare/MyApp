@@ -9,24 +9,23 @@ import { NavController, ToastController } from '@ionic/angular';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit{
+export class Tab1Page implements OnInit {
   product: any = {};
   selectedImage: string | ArrayBuffer | any;
   selectedImages: any = [];
-  current_location: any={};
-  constructor(private restService: RestService, private toastCrt: ToastController,private navCrt: NavController) { }
+  curr_locat: any = {};
+  constructor(private restService: RestService, private toastCrt: ToastController, private navCrt: NavController) { }
 
-  ngOnInit() {    
-    this.printCurrentPosition()
+  ngOnInit() {
+    this.CurrentPosition()
   }
 
   submit() {
-
-    this.printCurrentPosition()
+    this.CurrentPosition()
     this.product["photos"] = this.selectedImages;
-    this.product["locations"] = this.current_location;
+    this.product["locations"] = this.curr_locat;
     const savedData = this.restService.saveProduct(this.product)
-    console.log("submit", savedData);  
+    console.log("submit", savedData);
   }
 
   ionWillEnter() {
@@ -58,41 +57,19 @@ export class Tab1Page implements OnInit{
   }
 
 
-  async printCurrentPosition() {
+  async CurrentPosition() {
 
     try {
       const coordinates = await Geolocation.getCurrentPosition();
       console.log('Current position:', coordinates.coords);
-      this.current_location["latitude"] = coordinates.coords.latitude;
-      this.current_location["longitude"] = coordinates.coords.longitude;
-      const distance = this.calculateDistance(40.7128, -74.0060, 34.0522, -118.2437);
-      console.log('Distance:', distance, 'km');
+      this.curr_locat['latitude'] = coordinates.coords.latitude;
+      this.curr_locat['longitude'] = coordinates.coords.longitude;
+      localStorage.setItem("curr_location", JSON.stringify(this.curr_locat));
+
     } catch (error) {
       console.error('Error getting current position:', error);
     }
   }
-
-
-  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-    const earthRadiusKm = 6371; // Radius of the earth in kilometers
-    const dLat = this.degreesToRadians(lat2 - lat1);
-    const dLon = this.degreesToRadians(lon2 - lon1);
-
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.degreesToRadians(lat1)) * Math.cos(this.degreesToRadians(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = earthRadiusKm * c; // Distance in kilometers
-
-    return distance;
-  }
-
-  degreesToRadians(degrees: any) {
-    return degrees * (Math.PI / 180);
-  }
-
 
 
   async onFileInputChange(event: any) {

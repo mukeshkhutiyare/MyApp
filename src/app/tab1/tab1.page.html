@@ -10,19 +10,19 @@
   <form #Form="ngForm" (ngSubmit)="submit()">
     <ion-item>
       <ion-input label="Product Name" labelPlacement="floating" placeholder="Enter product name" type="text"
-        [(ngModel)]="product.name" name="name"></ion-input>
+        [(ngModel)]="product.name" name="name" required ></ion-input>
     </ion-item>
     <ion-item>
       <ion-input label="Product Price" labelPlacement="floating" placeholder="Enter product price" type="text"
-        [(ngModel)]="product.price" name="price"></ion-input>
+        [(ngModel)]="product.price" name="price" required ></ion-input>
     </ion-item>
     <ion-item>
       <ion-input label="Product Type" labelPlacement="floating" placeholder="Enter product type" type="text"
-        [(ngModel)]="product.type" name="type"></ion-input>
+        [(ngModel)]="product.type" name="type" required ></ion-input>
     </ion-item>
     <ion-item>
       <ion-input label="Product Description" labelPlacement="floating" placeholder="Enter product description"
-        type="text" [(ngModel)]="product.description" name="description"></ion-input>
+        type="text" [(ngModel)]="product.description" name="description" required ></ion-input>
     </ion-item>
     <!-- <ion-item>
       <ion-input label="Product Images" labelPlacement="floating" placeholder="Select images" type="files"></ion-input>
@@ -32,7 +32,7 @@
     <ion-img *ngIf="selectedImage" [src]="selectedImage"></ion-img> -->
 
     <ion-item>
-      <input type="file" (change)="onFileInputChange($event)" multiple accept="image/*">
+      <input type="file" (change)="onFileInputChange($event)" multiple accept="image/*" required >
     </ion-item>
 
     <!-- <ion-list>      
